@@ -4,8 +4,20 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 
+import { useSelector, useDispatch } from "react-redux";
+import { open, close } from "../slices/sidebarSlice";
+import { RootState } from "../store";
+
 const Navbar = () => {
   const [mounted, setMounted] = useState(false);
+
+  const { isShow } = useSelector((state) => state) as RootState;
+
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    isShow ? dispatch(close()) : dispatch(open());
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -37,7 +49,10 @@ const Navbar = () => {
 
   return (
     <div className="fixed z-10 top-0 left-0 w-full bg-blue-500 dark:bg-slate-800 px-6 flex justify-between items-center">
-      <span className="py-3 inline-block text-2xl text-white font-semibold">
+      <span
+        onClick={handleClick}
+        className="py-3 inline-block text-2xl text-white font-semibold cursor-pointer"
+      >
         Sycho
       </span>
       <div className="flex justify-center items-center gap-2">

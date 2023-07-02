@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { close } from "../slices/sidebarSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+
 const links = [
   { name: "Home", path: "/" },
+  { name: "Posts", path: "/posts" },
   { name: "Protected", path: "/protected" },
   { name: "Docs", path: "/docs" },
   { name: "Blog", path: "/blog" },
@@ -16,10 +21,18 @@ const links = [
 ];
 
 const Sidebar = () => {
+  const state = useSelector((state) => state) as RootState;
+  const dispatch = useDispatch();
+
   const currentRoute = usePathname();
+  const handleClick = () => {
+    dispatch(close());
+  };
   return (
     <div
-      className="fixed z-10 top-[57px] bg-blue-500 dark:bg-slate-900 w-60"
+      className={`fixed z-10 top-[57px] bg-blue-500 dark:bg-slate-900 w-60 ${
+        state.isShow ? "left-0" : "-translate-x-60"
+      }`}
       style={{ minHeight: "calc(100vh - 57px)" }}
     >
       <ul className="flex flex-col p-2 text-white gap-1">
@@ -27,6 +40,7 @@ const Sidebar = () => {
           return (
             <li key={i} className="">
               <Link
+                onClick={handleClick}
                 href={link.path}
                 className={`w-full h-full px-4 py-1 bg-blue-600 dark:bg-slate-700 dark:hover:bg-slate-600 inline-block rounded hover:bg-blue-700 ${
                   currentRoute === link.path
