@@ -11,7 +11,7 @@ const links = [
   { name: "Home", path: "/" },
   { name: "Posts", path: "/posts" },
   { name: "Protected", path: "/protected" },
-  { name: "Docs", path: "/docs" },
+  { name: "Games", path: "/games" },
   { name: "Blog", path: "/blog" },
   { name: "Issues", path: "/issues" },
   { name: "Components", path: "/components" },
@@ -21,7 +21,7 @@ const links = [
 ];
 
 const Sidebar = () => {
-  const state = useSelector((state) => state) as RootState;
+  const state = useSelector((state) => (state as any).sidebar);
   const dispatch = useDispatch();
 
   const currentRoute = usePathname();

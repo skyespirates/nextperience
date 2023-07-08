@@ -11,12 +11,12 @@ import { RootState } from "../store";
 const Navbar = () => {
   const [mounted, setMounted] = useState(false);
 
-  const { isShow } = useSelector((state) => state) as RootState;
+  const state = useSelector((state) => (state as any).sidebar) as RootState;
 
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    isShow ? dispatch(close()) : dispatch(open());
+    (state as any).isShow ? dispatch(close()) : dispatch(open());
   };
 
   useEffect(() => {

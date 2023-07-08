@@ -1,9 +1,8 @@
+"use client";
 import type { AppProps } from "next/app";
 import Layout from "./layout";
 
 import { CountProvider } from "../contexts/countContext";
-
-import { usePathname } from "next/navigation";
 
 import { ThemeProvider } from "next-themes";
 
@@ -13,20 +12,16 @@ import { Provider } from "react-redux";
 import store from "../store";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Head from "next/head";
 
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const path = usePathname();
-  const i = path.charAt(1).toUpperCase();
-  const page = path === "/" ? "" : ` | ${i + path.slice(2, path.length)}`;
-  const title = `Sycho ${page}`;
-
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
+        staleTime: 5 * 60 * 1000,
         refetchOnWindowFocus: false, // default: true
       },
     },
@@ -38,11 +33,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <CountProvider>
             <Head>
-              <title>{title}</title>
+              <title>Sycho</title>
             </Head>
             <Layout>
               <QueryClientProvider client={queryClient}>
                 <Component {...pageProps} />
+                <ReactQueryDevtools initialIsOpen />
               </QueryClientProvider>
             </Layout>
           </CountProvider>
