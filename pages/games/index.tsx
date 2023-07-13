@@ -3,6 +3,7 @@ import useGames from "../../hooks/useGames";
 import { Button } from "@/components/ui/button";
 import GameCard from "@components/GameCard";
 
+
 type GameType = {
   id: number;
   background_image: string;
@@ -17,7 +18,7 @@ const games = () => {
   // const game = games.results[0];
   // console.log(game);
 
-  if (isLoading) return <p>Loading...</p>;
+  // if (isLoading) return <p>Loading...</p>;
   if (error) return <p>An error occured: {(error as any).message}</p>;
 
   return (
@@ -25,7 +26,7 @@ const games = () => {
       <div className="grid grid-cols-4 gap-2">
         {games?.pages.map((page) =>
           page.results.map((game: GameType) => (
-            <GameCard key={game.id} game={game} />
+            <GameCard key={game.id} game={game} isLoading={isLoading} />
           ))
         )}
       </div>
